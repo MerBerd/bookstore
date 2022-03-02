@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Book
+from .forms import NewBookForm
 
 def index(request):
     return render(request, "Store/index.html", {
@@ -37,3 +38,49 @@ def logout_view(request):
 
 def register(request):
     pass
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        email = request.POST["email"]
+
+        # Ensure password matches confirmation
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "Store/register.html", {
+                "message": "Passwords must match."
+            })
+
+        # Attempt to create new user
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+        except IntegrityError:
+            return render(request, "Store/register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "Store/register.html")
+
+@login_required
+def newBook(request):
+    if request.method == "POST":
+        form = NewBookForm(request.POST)
+
+        if form.is_valid():
+            # form.instance.Author = request.user
+            form.save()
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "Store/newBook.html", {
+                "form" : form
+            })
+    form = NewBookForm()
+    return render(request, "Store/newBook.html", {
+            "form" : form
+        })
+
+    

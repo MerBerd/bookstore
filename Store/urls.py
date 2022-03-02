@@ -4,4 +4,10 @@ from django.conf.urls.static import static
 
 from . import views
 
-urlpatterns = []
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("accounts/login/", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout"),
+    path("register", views.register, name="register"),
+    path("newBook", views.newBook, name="newBook")
+]

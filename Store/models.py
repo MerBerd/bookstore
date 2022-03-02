@@ -9,7 +9,11 @@ class User(AbstractUser):
     pass
 
 class Author(models.Model):
-    pass
+    Name = models.CharField(max_length=64, blank=True, null=True)
+
+    def __str__(self):
+        return self.Name
+    
 
 class Book(models.Model):
     Title = models.CharField(max_length=64)
@@ -17,7 +21,7 @@ class Book(models.Model):
     Price = models.DecimalField(max_digits=10, decimal_places=2)
     PostedTime = models.DateTimeField(auto_now_add=True)
     Photo = models.URLField(max_length=1000, blank=True, null=True)
-    Author = models.ManyToManyField(Author, on_delete=models.CASCADE, related_name='books')
+    Author = models.ManyToManyField(Author, blank=True, related_name='books')
     addedShoplist = models.ManyToManyField(User, blank=True, related_name='shoplist')
     Active = models.BooleanField(default=True)
 
