@@ -1,12 +1,23 @@
+from attr import field
 from django import forms
 from django.forms import widgets
 
-from .models import Book
+from .models import Book, Author
+
+class NewAuthorForm(forms.ModelForm):
+    pass
 
 class NewBookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['Title', 'Description', 'Price', 'Photo', 'Author']
         widgets = {
-            'Description':widgets.Textarea(attrs={'cols' : 80, 'rows' : 20, 'class' : 'form-control'}),
+            'Description':widgets.Textarea(attrs={'cols' : 60, 'rows' : 10, 'class' : 'form-control'}),
+            'Author': widgets.Select()
         }
+
+class NewAuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = ['FirstName', 'LastName', 'Patronymic']
+

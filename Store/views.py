@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import User, Book
-from .forms import NewBookForm
+from .forms import NewBookForm, NewAuthorForm
 
 def index(request):
     return render(request, "Store/index.html", {
@@ -82,5 +82,25 @@ def newBook(request):
     return render(request, "Store/newBook.html", {
             "form" : form
         })
+
+
+@login_required
+def newAuthor(request):
+    if request.method == "POST":
+        form = NewAuthorForm(request.POST)
+
+        if form.is_valid():
+            # form.instance.Author = request.user
+            form.save()
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "Store/newAuthor.html", {
+                "form" : form
+            })
+    form = NewAuthorForm()
+    return render(request, "Store/newAuthor.html", {
+            "form" : form
+        })
+
 
     

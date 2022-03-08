@@ -9,10 +9,13 @@ class User(AbstractUser):
     pass
 
 class Author(models.Model):
-    Name = models.CharField(max_length=64, blank=True, null=True)
+    FirstName = models.CharField(max_length=64, blank=True, null=True)
+    LastName = models.CharField(max_length=64, blank=True, null=True)
+    Patronymic = models.CharField(max_length=64, blank=True,  null=True)
+
 
     def __str__(self):
-        return self.Name
+        return f'{self.LastName} {self.FirstName} {self.Patronymic}'
     
 
 class Book(models.Model):
@@ -20,10 +23,13 @@ class Book(models.Model):
     Description = models.CharField(max_length=400)
     Price = models.DecimalField(max_digits=10, decimal_places=2)
     PostedTime = models.DateTimeField(auto_now_add=True)
-    Photo = models.URLField(max_length=1000, blank=True, null=True)
-    Author = models.ManyToManyField(Author, blank=True, related_name='books')
+    Photo = models.URLField(max_length=10000, blank=True, null=True)
+    Author = models.ManyToManyField(Author, blank=True, null=True, related_name='books')
     addedShoplist = models.ManyToManyField(User, blank=True, related_name='shoplist')
     Active = models.BooleanField(default=True)
+
+    def __str_(self):
+        return f'{self.Author}: {self.Title}'
 
 
 class Order(models.Model):

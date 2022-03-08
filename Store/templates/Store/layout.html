@@ -3,40 +3,49 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+       
+
+
         <title>{% block title %}Bookstore{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet"> 
-       
+        <link href="{% static 'Store/styles.css' %}" rel="stylesheet"> 
+        <script src="https://kit.fontawesome.com/f2bd4eb8ea.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <h1>Auctions</h1>
-        <div>
-            {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
-            {% else %}
-                Not signed in.
-            {% endif %}
-        </div>
+        
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+                <a class="nav-link" style="color:black;" href="{% url 'index' %}"><i class="fa-solid fa-books"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'newBook' %}">Create new listing</a>
+                <a class="nav-link" href="{% url 'index' %}">Книги</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'newBook' %}">Добавить книгу</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'newAuthor' %}">Добавить автора</a>
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    <a class="nav-link" href="{% url 'login' %}">Войти</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    <a class="nav-link" href="{% url 'register' %}">Зарегистрироваться</a>
                 </li>
             {% endif %}
         </ul>
+        <div>
+            {% if user.is_authenticated %}
+                авторизован как <strong>{{ user.username }}</strong>.
+            {% else %}
+                не авторизован
+            {% endif %}
+        </div>
         <hr>
         {% block body %}
         {% endblock %}
