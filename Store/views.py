@@ -69,6 +69,7 @@ def register(request):
 def newBook(request):
     if request.method == "POST":
         form = NewBookForm(request.POST)
+    
 
         if form.is_valid():
             # form.instance.Author = request.user
@@ -76,8 +77,9 @@ def newBook(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "Store/newBook.html", {
-                "form" : form
-            })
+           "form" : form,
+           "errors" : form.errors
+              })
     form = NewBookForm()
     return render(request, "Store/newBook.html", {
             "form" : form
