@@ -4,8 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from pyparsing import Or
 
-from .models import User, Book
+from .models import User, Book, Order
 from .forms import NewBookForm, NewAuthorForm
 
 def index(request):
@@ -104,5 +105,42 @@ def newAuthor(request):
             "form" : form
         })
 
+
+def book(request, book_id):
+    book = Book.objects.get(pk=book_id)
+   
+    #inList = book.inShoplist(request.user) if request.user.is_authenticated else False
+    try:
+        Order.objects.get(Book=book)
+        inList = True
+    except Order.DoesNotExist:
+        inList = False
+
+   
+
+    return render(request, "Store/book.html", {
+            "book" : book,
+            "inList" : inList 
+        })
+
+def shoplist(request):
+    goods =  Order.objects.filter(Customer=request.user)
+    if goods:
+        mes = "message"
+    else:
+        mes = "no mes"
+    return render(request, "Store/shoplist.html",
+    {
+        "goods":goods,
+        "mes": mes
+    })
+
+def shoplistChange(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    user = request.user
+    order = Order(Customer = user, Book=book)
+    order.save()
+    return render(request, "Store/index.html")
+    
 
     

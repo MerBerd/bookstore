@@ -9,9 +9,9 @@ class User(AbstractUser):
     pass
 
 class Author(models.Model):
-    FirstName = models.CharField(max_length=64, blank=True, null=True)
-    LastName = models.CharField(max_length=64, blank=True, null=True)
-    Patronymic = models.CharField(max_length=64, blank=True,  null=True)
+    FirstName = models.CharField(max_length=64, blank=True, default='')
+    LastName = models.CharField(max_length=64, blank=True, default='')
+    Patronymic = models.CharField(max_length=64, blank=True, default='')
 
 
     def __str__(self):
@@ -24,13 +24,18 @@ class Book(models.Model):
     Price = models.DecimalField(max_digits=10, decimal_places=2)
     PostedTime = models.DateTimeField(auto_now_add=True)
     Photo = models.URLField(max_length=10000, blank=True, null=True)
-    Author = models.ManyToManyField(Author, blank=True, null=True, related_name='books')
-    addedShoplist = models.ManyToManyField(User, blank=True, related_name='shoplist')
+    Author = models.ManyToManyField(Author, blank=True, default='', related_name='books')
+    #addedShoplist = models.ManyToManyField(User, blank=True, related_name='shoplist')
     Active = models.BooleanField(default=True)
 
-    def __str_(self):
+    #def inShoplist(self, user):
+     #   return user.shoplist.filter(pk=self.pk).exists()
+
+    def __str__(self):
         return f'{self.Author}: {self.Title}'
 
 
 class Order(models.Model):
-    pass
+    Customer = models.ForeignKey(User,on_delete=CASCADE, related_name="purchase")
+    Book = models.ForeignKey(Book, on_delete=CASCADE)
+    Count = models.IntegerField(default=1)

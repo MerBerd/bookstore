@@ -12,8 +12,56 @@
         <script src="https://kit.fontawesome.com/f2bd4eb8ea.js" crossorigin="anonymous"></script>
     </head>
     <body>
+
+        <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-lg">
+            <h4 class="navbar-brand">BookMate</h4><i class="fa-solid fa-books"></i>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Книги</a>
+                    </li>
+                  
+                    {% if user.is_authenticated %}
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'newBook' %}">Добавить книгу</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'newAuthor' %}">Добавить аффтара</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shoplist' %}"><i class="fa-solid fa-basket-shopping"></i></a>
+                        </li>
+                        
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user pr-1" aria-hidden="true"></i>  <strong>{{ user.username }}</strong>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                            </div>
+                        </li>
+                        
+                    {% else %}
+                        <a class="nav-link mx-lg-2" href="{% url 'login' %}">Вход</a>
+                        <a class="nav-link mx-lg-2 " href="{% url 'register' %}">Регистрация</a>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+
+
+
         
-        <ul class="nav">
+        <!--<ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" style="color:black;" href="{% url 'index' %}"><i class="fa-solid fa-books"></i></a>
             </li>
@@ -38,12 +86,14 @@
                     <a class="nav-link" href="{% url 'register' %}">Зарегистрироваться</a>
                 </li>
             {% endif %}
-        </ul>
+        </ul>-->
+
+
         <div>
             {% if user.is_authenticated %}
-                авторизован как <strong>{{ user.username }}</strong>.
+            <i class="fa-solid fa-user"></i> <strong>{{ user.username }}</strong>.
             {% else %}
-                не авторизован
+            <i class="fa-solid fa-user-large-slash">не авторизован</i> 
             {% endif %}
         </div>
         <hr>

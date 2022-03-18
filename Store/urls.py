@@ -11,4 +11,7 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("newBook", views.newBook, name="newBook"),
     path("newAuthor", views.newAuthor, name="newAuthor"),
+    path("book/<int:book_id>", views.book, name="book"),
+    path("shoplist", views.shoplist, name="shoplist"),
+    path("shoplistChange/<int:book_id>", views.shoplistChange, name="shoplistChange")
 ]

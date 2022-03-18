@@ -1,15 +1,16 @@
 {% extends "Store/layout.html" %}
 
 {% block body %}
-    <h2>Книги</h2>
+    
     <div id="container">
     {% for book in books %}
         {% if book.Active == True %}
-        <a href="#" class="text-decoration-none text-dark"><div class="card" style="width: 18rem;">
+        <a href="{% url 'book' book.id %}" class="text-decoration-none text-dark"><div class="card" style="width: 18rem;">
                 <img class="card-img-top imgpl" src="{{ book.Photo }}" alt="Card image of {{ book.Title }}">
-                <h5 class="card-title center">{{ book.Title }}</h5>
-                <h6 class="center card-subtitle mb-2 text-muted">{{ book.Price }}</h6>
-                <a href="#" class="btn btn-primary"><i class="fa-solid fa-basket-shopping"></i> В корзину</a>
+                <div><h5 class="card-title center">{{ book.Title }}</h5>
+                <h6 class="center card-subtitle mb-2 text-muted">{{ book.Price }} ₽</h6></div>
+                <a href="#" class="btn btn-primary" hidden="true"><i class="fa-solid fa-basket-shopping" ></i> В корзину</a>
+                
             </div></a>
         {% endif %}
         {% empty %}

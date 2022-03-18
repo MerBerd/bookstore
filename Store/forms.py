@@ -13,7 +13,7 @@ class NewBookForm(forms.ModelForm):
         fields = ['Title', 'Description', 'Price', 'Photo', 'Author']
         widgets = {
             'Description':widgets.Textarea(attrs={'cols' : 60, 'rows' : 10, 'class' : 'form-control'}),
-            'Author': widgets.Select()
+            'Author': widgets.SelectMultiple()
         }
 
 class NewAuthorForm(forms.ModelForm):
