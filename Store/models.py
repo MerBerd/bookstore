@@ -25,6 +25,7 @@ class Book(models.Model):
     #PostedTime = models.DateTimeField(auto_now_add=True)
     Photo = models.URLField(max_length=10000, blank=True, null=True)
     Author = models.ManyToManyField(Author, blank=True, default='', related_name='books')
+    Poster = models.ForeignKey(User, on_delete=CASCADE, related_name='postedBooks', default='')
     #addedShoplist = models.ManyToManyField(User, blank=True, related_name='shoplist')
     #Active = models.BooleanField(default=True)
 
@@ -36,6 +37,6 @@ class Book(models.Model):
 
 
 class Order(models.Model):
-    Customer = models.ForeignKey(User,on_delete=CASCADE, related_name="purchase")
+    Customer = models.ForeignKey(User, on_delete=CASCADE, related_name="purchase")
     Book = models.ForeignKey(Book, on_delete=CASCADE)
     Count = models.IntegerField(default=1)

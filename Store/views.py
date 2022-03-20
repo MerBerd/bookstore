@@ -70,10 +70,11 @@ def register(request):
 def newBook(request):
     if request.method == "POST":
         form = NewBookForm(request.POST)
-    
+
+        
 
         if form.is_valid():
-            # form.instance.Author = request.user
+            form.instance.Poster = request.user
             form.save()
             return HttpResponseRedirect(reverse("index"))
         else:
@@ -108,6 +109,8 @@ def newAuthor(request):
 
 def book(request, book_id):
     book = Book.objects.get(pk=book_id)
+    user = request.user
+    sth = user == book.Poster
     Authors = book.Author.all()
     info = ''
     for aut in Authors:
@@ -126,7 +129,8 @@ def book(request, book_id):
     return render(request, "Store/book.html", {
             "book" : book,
             "inList" : inList,
-            "info" : info
+            "info" : info,
+            "sth" : sth
         })
 
 def shoplist(request):
@@ -199,9 +203,7 @@ def edit(request, book_id):
     
     }
     
-    
     form = NewBookForm(request.POST or None, initial=initial_)
-    
     
     return render(request, "Store/edit.html",
     {

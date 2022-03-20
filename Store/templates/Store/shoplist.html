@@ -22,7 +22,7 @@
  
                      
                             </small>
-                            
+                            <a href="{% url 'shoplistRemove' good.Book.id %}" style="color:red"><i class="fa-solid fa-trash-can"></i></a>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
         {% empty %}
         Корзина пуста
         {% endfor %}
-        <h2>{{ cost }}</h2>
+        <h2>Итого: {{ cost }}</h2>
     </div>
 {% endblock %}
     
