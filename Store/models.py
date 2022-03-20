@@ -22,11 +22,11 @@ class Book(models.Model):
     Title = models.CharField(max_length=64)
     Description = models.CharField(max_length=400)
     Price = models.DecimalField(max_digits=10, decimal_places=2)
-    PostedTime = models.DateTimeField(auto_now_add=True)
+    #PostedTime = models.DateTimeField(auto_now_add=True)
     Photo = models.URLField(max_length=10000, blank=True, null=True)
     Author = models.ManyToManyField(Author, blank=True, default='', related_name='books')
     #addedShoplist = models.ManyToManyField(User, blank=True, related_name='shoplist')
-    Active = models.BooleanField(default=True)
+    #Active = models.BooleanField(default=True)
 
     #def inShoplist(self, user):
      #   return user.shoplist.filter(pk=self.pk).exists()

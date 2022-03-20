@@ -18,17 +18,17 @@
             {% if user.is_authenticated %}
                 <div class="text-right pb-3">
                     <!-- Watchlist -->
-                    <form action="#" method="POST" class="d-inline-block">
+                    
                         {% csrf_token %}
                         {% if inList %}
-                        <button style="background-color: green;color:white; border-color: white; border-radius: 10px;"><i class="fa-solid fa-basket-shopping"></i>В корзине</button>
+                        <button style="background-color: green;color:white; border-color: white; border-radius: 10px;"><a href="{% url 'shoplistRemove' book.id %}"><i class="fa-solid fa-basket-shopping"></i>В корзине</a></button>
                         {% else %}
                             
-                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="#" style="color:red"><i class="fa-solid fa-trash-can"></i></a>
+                            <a href="{% url 'edit' book.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{% url 'delete' book.id %}" style="color:red"><i class="fa-solid fa-trash-can"></i></a>
                             <button style="background-color: blue;color:white; border-color: white; border-radius: 10px;"><a href="{% url 'shoplistChange' book.id %}"><i class="fa-solid fa-basket-shopping"></i>В корзину</a></button>
                         {% endif %}
-                    </form>
+                    
                 </div>
             {% endif %}
 
@@ -38,7 +38,7 @@
                 <small><em>"{{book.Description}}"</em></small>
             </p>
             <p class="text-monospace text-muted border-bottom pb-3">
-                <small>АФФТАРЫ {{book.Author}}</small>
+                <small>АФФТАРЫ {{info}}</small>
             </p>
             
             <!-- Bid section -->
@@ -47,13 +47,7 @@
                    <strong>{{book.Price}} ₽</strong>
                 </h5>
 
-            </div>
-                       
-                        
-
-           
-                    
-                    
+            </div>  
             </div>
         </div>
     

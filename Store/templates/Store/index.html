@@ -4,7 +4,7 @@
     
     <div id="container">
     {% for book in books %}
-        {% if book.Active == True %}
+        
         <a href="{% url 'book' book.id %}" class="text-decoration-none text-dark"><div class="card" style="width: 18rem;">
                 <img class="card-img-top imgpl" src="{{ book.Photo }}" alt="Card image of {{ book.Title }}">
                 <div><h5 class="card-title center">{{ book.Title }}</h5>
@@ -12,7 +12,7 @@
                 <a href="#" class="btn btn-primary" hidden="true"><i class="fa-solid fa-basket-shopping" ></i> В корзину</a>
                 
             </div></a>
-        {% endif %}
+        
         {% empty %}
             <h3>Нет книг</h3>
     {% endfor %}

@@ -108,6 +108,11 @@ def newAuthor(request):
 
 def book(request, book_id):
     book = Book.objects.get(pk=book_id)
+    Authors = book.Author.all()
+    info = ''
+    for aut in Authors:
+        info += f' {aut} ' 
+
    
     #inList = book.inShoplist(request.user) if request.user.is_authenticated else False
     try:
@@ -120,11 +125,15 @@ def book(request, book_id):
 
     return render(request, "Store/book.html", {
             "book" : book,
-            "inList" : inList 
+            "inList" : inList,
+            "info" : info
         })
 
 def shoplist(request):
     goods =  Order.objects.filter(Customer=request.user)
+    cost = 0
+    for good in goods:
+        cost += good.Book.Price
     if goods:
         mes = "message"
     else:
@@ -132,15 +141,80 @@ def shoplist(request):
     return render(request, "Store/shoplist.html",
     {
         "goods":goods,
-        "mes": mes
+        "mes": mes,
+        "cost" : cost
     })
 
 def shoplistChange(request, book_id):
-    book = Book.objects.get(pk=book_id)
+    _book = Book.objects.get(pk=book_id)
     user = request.user
-    order = Order(Customer = user, Book=book)
+    order = Order(Customer = user, Book=_book)
     order.save()
-    return render(request, "Store/index.html")
+
+    try:
+        Order.objects.get(Book=_book)
+        inList = True
+    except Order.DoesNotExist:
+        inList = False
+
+    return render(request, "Store/book.html", {
+            "book" : _book,
+            "inList" : inList 
+        })
+    
+    
+
+def shoplistRemove(request, book_id):
+    
+    user = request.user
+    book = Book.objects.get(pk=book_id)
+
+    Order.objects.filter(Customer=user, Book=book).delete()
+    return HttpResponseRedirect(reverse("shoplist"))
+
+def edit(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    if request.method == "POST":
+        form = NewBookForm(request.POST)
+        
+
+        if form.is_valid():
+            book.Title = form.cleaned_data["Title"]
+            book.Description = form.cleaned_data["Description"]
+            book.Price = form.cleaned_data["Price"]
+            book.Photo = form.cleaned_data["Photo"]
+            book.Author.set(form.cleaned_data["Author"])
+            book.save()
+
+            
+            
+            return HttpResponseRedirect(reverse("index"))
+    
+    
+    initial_ = {
+    "Title": book.Title,
+    "Description" : book.Description,
+    "Price" : book.Price,
+    "Photo" : book.Photo,
+    
+    }
+    
+    
+    form = NewBookForm(request.POST or None, initial=initial_)
+    
+    
+    return render(request, "Store/edit.html",
+    {
+        "form" : form,
+        "book" : book
+        
+    })
+            
+
+def delete(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    book.delete()
+    return HttpResponseRedirect(reverse("index"))
     
 
     
