@@ -1,5 +1,6 @@
 body {
     padding: 10px;
+    
 }
 #container {
     display: flex;
@@ -24,6 +25,7 @@ body {
     margin: 0 auto;
 }
 .card {
+    background-color: #D3D3D3;
     text-align: center;
     position: relative;
 }
@@ -46,3 +48,28 @@ body {
     bottom:  30px;
 }
 
+.formdiv
+{
+    text-align: center; 
+    margin:0 auto;
+}
+
+.formdiv > form
+{
+    display: inline-block;
+}
+
+.f-c{
+    background-color: green;
+    color: white;
+}
+
+.f-c:hover{
+    background-color: white;
+    color: green
+}
+
+.footer{
+    background-color: #31373e;
+    color: grey;
+}

@@ -68,6 +68,7 @@ def register(request):
 
 @login_required
 def newBook(request):
+    labels = ["Название", "Описание", "Цена", "Картинка", "Автор"]
     if request.method == "POST":
         form = NewBookForm(request.POST)
 
@@ -79,17 +80,20 @@ def newBook(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "Store/newBook.html", {
-           "form" : form,
+           "form" : zip(form, labels),
            "errors" : form.errors
               })
     form = NewBookForm()
+    
     return render(request, "Store/newBook.html", {
-            "form" : form
+            "form" : zip(form, labels),
+             
         })
 
 
 @login_required
 def newAuthor(request):
+    labels = ["Имя", "Фамилия", "Отчество"]
     if request.method == "POST":
         form = NewAuthorForm(request.POST)
 
@@ -99,11 +103,11 @@ def newAuthor(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "Store/newAuthor.html", {
-                "form" : form
+                "form" : zip(form, labels),
             })
     form = NewAuthorForm()
     return render(request, "Store/newAuthor.html", {
-            "form" : form
+            "form" : zip(form, labels),
         })
 
 
@@ -114,9 +118,9 @@ def book(request, book_id):
     Authors = book.Author.all()
     info = ''
     for aut in Authors:
-        info += f' {aut} ' 
+        info += f' {aut}, ' 
 
-   
+    info = info[:-2]
     #inList = book.inShoplist(request.user) if request.user.is_authenticated else False
     try:
         Order.objects.get(Book=book)
@@ -177,6 +181,7 @@ def shoplistRemove(request, book_id):
     return HttpResponseRedirect(reverse("shoplist"))
 
 def edit(request, book_id):
+    labels = ["Название", "Описание", "Цена", "Картинка", "Автор"]
     book = Book.objects.get(pk=book_id)
     if request.method == "POST":
         form = NewBookForm(request.POST)
@@ -207,7 +212,7 @@ def edit(request, book_id):
     
     return render(request, "Store/edit.html",
     {
-        "form" : form,
+        "form" : zip(form, labels),
         "book" : book
         
     })

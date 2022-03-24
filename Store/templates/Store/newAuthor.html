@@ -1,14 +1,26 @@
 {% extends "Store/layout.html" %}
 
 {% block body %}
-<form action="{% url 'newAuthor' %}" method='POST'>
+<h2 style="text-align: center;">Добавить Аффтара</h2>
+<div style="text-align: center; margin:0 auto;">
+<form action="{% url 'newAuthor' %}" method='POST' style="display: inline-block;">
     {% csrf_token %}
-    <ul style="list-style-type: none;">
-        {% for i in form%}
-        <li> {{ i.label_tag }} {{ i }}</li>
+    
+    <!--<ul style="list-style-type: none;">-->
+        {% for i, j in form%}
+        <!--<li> {{ i.label_tag }} {{ i }}</li>-->
+
+        {{ j }}:
+            <div class="input-group mb-3">
+                
+                    {{ i }}
+             </div>
+
     {% endfor %}
-    </ul>
-    <input class = "form-control" type="submit" value='Create'>
+
+    <!--</ul>-->
+    <input class = "f-c form-control" type="submit" value='Добавить'>
     
 </form>
+</div>
 {% endblock %}
